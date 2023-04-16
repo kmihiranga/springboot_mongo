@@ -1,7 +1,6 @@
 package com.techwizlanka.productservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techwizlanka.productservice.config.MongoConfig;
 import com.techwizlanka.productservice.dto.ProductRequest;
 import com.techwizlanka.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
@@ -37,12 +35,10 @@ class ProductServiceApplicationTests {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private ProductRepository productRepository;
-	@Autowired
-	private static MongoConfig mongoConfig;
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-		dynamicPropertyRegistry.add(mongoConfig.mongoUri(), mongoDBContainer::getReplicaSetUrl);
+		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
 	@Test
